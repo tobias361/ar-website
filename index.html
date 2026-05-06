@@ -180,7 +180,7 @@
     }
 
     .header-cluster .header-insta {
-      align-self: flex-end;
+      align-self: center;
     }
 
     .header-insta {
@@ -188,6 +188,7 @@
       align-items: center;
       justify-content: center;
       padding: 4px;
+      margin-top: 0px;
       transition: opacity 0.2s ease;
     }
 
@@ -389,6 +390,15 @@
       text-decoration: none;
     }
 
+    .hero__subtitle {
+      margin: 10px 0 0;
+      font-family: 'Clash Grotesk', system-ui, sans-serif;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.35;
+      color: #3e2723;
+    }
+
     .hero__photo {
       position: relative;
     }
@@ -439,6 +449,7 @@
 
     .about__avatar-wrap {
       margin: 0;
+      justify-self: end;
     }
 
     .about__grid {
@@ -452,24 +463,15 @@
         min-height: 0;
       }
 
-      /* Two text columns share the same measure as hero; portrait is out of flow at column-2 seam */
+      /* Two columns: flowing text + portrait */
       .about__grid {
-        grid-template-columns: minmax(0, var(--hero-copy-max)) minmax(0, var(--hero-media-w));
+        grid-template-columns: minmax(0, calc(var(--hero-copy-max) - 40px)) minmax(0, var(--about-portrait));
         justify-content: start;
         gap: var(--hero-col-gap);
         align-items: start;
       }
 
-      /* Circle center on hero-image left edge: only the right half sits in column 2 */
-      .about__text-col--two.about__text-col--inset-desktop {
-        padding-left: calc(var(--about-portrait) / 2 + var(--about-portrait-gutter));
-      }
-
       .about__avatar-wrap {
-        position: absolute;
-        /* Center of portrait aligns with left edge of hero column (seam of copy + image) */
-        left: calc(var(--hero-copy-max) + var(--hero-col-gap) - var(--about-portrait) / 2);
-        top: 0;
         width: var(--about-portrait);
       }
 
@@ -505,42 +507,21 @@
 
     .about__avatar picture,
     .about__avatar img {
+      display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: 50% 20%;
     }
 
-    .about__text-merge {
-      display: flex;
-      flex-direction: column;
-      gap: 22px;
-    }
-
     @media (max-width: 991px) {
-      .about__body {
-        display: flex;
-        flex-direction: column;
-      }
-
       .about__grid {
         grid-template-columns: 1fr;
       }
 
       .about__avatar-wrap {
-        order: -1;
-        margin-bottom: 20px;
-      }
-
-      .about__text-col--one,
-      .about__text-col--two {
-        display: none;
-      }
-    }
-
-    @media (min-width: 992px) {
-      .about__text-merge {
-        display: none;
+        float: right;
+        margin: 0 0 12px 12px;
       }
     }
 
@@ -593,53 +574,17 @@
     /* ——— Footer ——— */
     .footer {
       background: #ece7e2;
-      padding: 40px 140px 32px;
+      padding: 32px 140px;
       box-sizing: border-box;
       font-family: 'Clash Grotesk', sans-serif;
       font-weight: 300;
       font-size: 9px;
-      line-height: 1.4;
+      line-height: 1.6;
       color: #898987;
     }
 
-    .footer__shell {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 30px;
-      align-items: start;
-      min-width: 0;
-    }
-
-    /* Explicit grid placement */
-    .footer__col--publisher {
-      grid-column: 1;
-      grid-row: 1;
-      align-self: start;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .footer__col--credits {
-      grid-column: 2;
-      grid-row: 1;
-      align-self: start;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .footer__col--rights {
-      grid-column: 3;
-      grid-row: 1;
-      align-self: start;
-      min-width: 0;
+    .footer__flow {
+      display: block;
     }
 
     .footer a {
@@ -656,95 +601,29 @@
       font-weight: 500;
     }
 
-    .footer__col p {
+    .footer__text {
       margin: 0;
-      flex: 1 1 120px;
-      min-width: 0;
     }
 
-    .footer__col--rights p {
-      flex: none;
-    }
-
-    .footer__col--rights p + p {
-      margin-top: 10px;
-    }
-
-    .footer__publisher-symbol {
-      flex-shrink: 0;
-      height: 32px;
-      width: auto;
-      display: block;
-      object-fit: contain;
-      object-position: left top;
-    }
-
-    .footer__herde-logo {
-      flex-shrink: 0;
-      height: 32px;
-      width: auto;
-      display: block;
-      object-fit: contain;
-      object-position: left top;
-    }
-
-    .footer__bar {
-      grid-column: 1 / -1;
-      grid-row: 2;
-      align-self: start;
+    .footer__bottom {
       display: flex;
-      flex-direction: row;
+      flex-wrap: nowrap;
       align-items: center;
-      justify-content: flex-start;
-      gap: 10px;
-      padding-top: 24px;
-      margin: 0;
-      font-family: 'Clash Grotesk', sans-serif;
-      font-weight: 300;
-      font-size: 9px;
-      line-height: 1.3;
-      color: #898987;
+      gap: 6px;
+      margin-top: 24px;
     }
 
-    .footer__bar-hammer {
+    .footer__bottom-icon {
       flex-shrink: 0;
-      height: 16px;
+      height: 20px;
       width: auto;
       display: block;
       object-fit: contain;
-    }
-
-    .footer__bar-note {
-      margin: 0;
     }
 
     @media (max-width: 991px) {
       .footer {
-        padding: 40px clamp(16px, 5vw, 140px) 32px;
-      }
-
-      .footer__shell {
-        grid-template-columns: 1fr;
-      }
-
-      .footer__col--publisher,
-      .footer__col--credits,
-      .footer__col--rights {
-        grid-column: 1;
-      }
-
-      .footer__col--credits {
-        grid-row: 2;
-      }
-
-      .footer__col--rights {
-        grid-row: 3;
-      }
-
-      .footer__bar {
-        grid-column: 1 / -1;
-        grid-row: 4;
-        padding-top: 16px;
+        padding: 32px clamp(16px, 5vw, 140px);
       }
     }
 
@@ -762,8 +641,9 @@
 
     @media (max-width: 767px) {
       .site-header {
-        flex-direction: column;
-        align-items: stretch;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: start;
         gap: 8px;
       }
 
@@ -773,9 +653,11 @@
 
       .logo--mobile {
         display: block;
-        align-self: center;
         padding-top: 4px;
-        margin-bottom: clamp(12px, 3vw, 28px);
+        margin-bottom: 0;
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: start;
       }
 
       .logo--mobile img {
@@ -784,11 +666,21 @@
         margin-inline: auto;
       }
 
-      .header-cluster .header-insta {
-        align-self: flex-end;
+      .header-cluster {
+        display: contents;
+      }
+
+      .header-insta {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: end;
+        align-self: start;
+        margin-top: 2px;
       }
 
       .coming-soon {
+        grid-column: 1 / -1;
+        grid-row: 2;
         align-self: stretch;
       }
 
@@ -802,7 +694,29 @@
       }
 
       .hero__mosaic {
-        transform: rotate(-1.6deg) translateX(-26%);
+      transform: rotate(-1.6deg) translateX(-10%) translateY(-20px);
+      }
+
+      .hero__lead .btn {
+        display: flex;
+        margin-inline: auto;
+      }
+
+      .about__grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .about__avatar-wrap {
+        order: -1;
+        float: none;
+        align-self: center;
+        margin: 0 0 16px 0;
+      }
+
+      .about__text-flow {
+        width: 100%;
       }
     }
 
@@ -860,6 +774,7 @@
               Based between Forcalquier and Marseille,<br>her work moves between bespoke furniture and jewellery&nbsp;&mdash;&nbsp;<em>confronting</em> ancient Mediterranean craft with contemporary concepts and matter.            </p>
           </div>
           <a class="btn" href="mailto:studio@annarommel.eu">Contact</a>
+          <p class="hero__subtitle">Every piece is unique and handmade.</p>
         </div>
 
         <div class="hero__photo">
@@ -875,36 +790,21 @@
       <h2 class="section-title">About</h2>
 
       <div class="about__body">
-        <figure class="about__avatar-wrap">
-          <div class="about__avatar">
-            <picture>
-              <source media="(min-width: 992px)" srcset="images/ar-portrait-desktop.png">
-              <img src="images/ar-portrait-mobile.png" alt="Anna Rommel" width="336" height="336" decoding="async">
-            </picture>
-          </div>
-        </figure>
-
         <div class="about__grid">
-          <div class="about__text-merge">
+          <div class="about__text-flow">
             <p class="about__text">
-              Working with private clients, interior designers and galleries seeking exceptional, accessible pieces for considered spaces. <strong>Every piece is unique and handmade.</strong>            
-            </p>
-            <p class="about__text">
-              Trained at the Mosaic School of Spilimbergo, <span class="semibold">Anna Rommel</span> went on to co-restore the ceiling mosaics of Notre Dame de la Garde. She is part of <span class="semibold">Atelier Céladon</span>, an artist collective based in Marseille.
+              Trained at the Mosaic School of Spilimbergo, <span class="semibold">Anna Rommel</span> went on to co-restore the ceiling mosaics of Notre Dame de la Garde. She is part of <span class="semibold">Atelier&nbsp;Céladon</span>, an artist collective based in Marseille. Working with private clients, interior designers and galleries seeking exceptional, accessible pieces for considered spaces.
             </p>
           </div>
 
-          <div class="about__text-col about__text-col--one">
-            <p class="about__text">
-              Working with private clients, interior designers and galleries seeking exceptional, accessible pieces for considered spaces.&nbsp;<span class="semibold">Every piece is unique and handmade.</span>
-            </p>
-          </div>
-
-          <div class="about__text-col about__text-col--two about__text-col--inset-desktop">
-            <p class="about__text">
-              Trained at the Mosaic School of Spilimbergo, <span class="semibold">Anna Rommel</span> went on to co-restore the ceiling mosaics of Notre Dame de la Garde. She is part of <span class="semibold">Atelier Céladon</span>, an artist collective based in Marseille.
-            </p>
-          </div>
+          <figure class="about__avatar-wrap">
+            <div class="about__avatar">
+              <picture>
+                <source media="(min-width: 992px)" srcset="images/ar-portrait.png">
+                <img src="images/ar-portrait.png" alt="Anna Rommel" width="336" height="336" decoding="async">
+              </picture>
+            </div>
+          </figure>
         </div>
       </div>
     </section>
@@ -925,39 +825,16 @@
 
   <footer class="footer" aria-labelledby="footer-label">
     <span id="footer-label" class="visually-hidden">Legal notice</span>
-    <div class="footer__shell">
-      <div class="footer__col footer__col--publisher">
-        <img class="footer__publisher-symbol" src="images/ar-symbol-impressum.svg" alt="" width="53" height="32">
-        <p>
-          <span class="footer__emph">Publisher</span> Anna Rommel Atelier C&eacute;ladon,<br>
-          Le Panier, Marseille, E-Mail: <a href="mailto:studio@annarommel.eu">studio@annarommel.eu</a><br>
-          <a href="tel:+33637464709">+33 6 37 46 47 09</a>; SIRET : 838 171 353 000 17
-        </p>
-      </div>
+    <div class="footer__flow">
+      <p class="footer__text">
+        <span class="footer__emph">Publisher</span> &middot; Anna Rommel &middot; Atelier C&eacute;ladon, Le Panier, Marseille &middot; <a href="mailto:studio@annarommel.eu">studio@annarommel.eu</a> &middot; <a href="tel:+33637464709">+33 6 37 46 47 09</a> &middot; SIRET: 838 171 353 000 17 &middot; Webdesign &amp; Development HERDE Wien &middot; <a href="https://www.herde.wien" target="_blank" rel="noopener noreferrer">www.herde.wien</a> &middot; <a href="mailto:tobias@herde.wien">tobias@herde.wien</a> &middot; <span class="footer__emph">Hosting</span> Vercel Inc., San Francisco &middot; <a href="https://vercel.com" target="_blank" rel="noopener noreferrer">vercel.com</a> &middot; <span class="footer__emph">Intellectual Property</span> &middot; All content on this website is the exclusive property of Anna Rommel Design and may not be reproduced without prior authorisation &middot; <span class="footer__emph">Privacy</span> &middot; No personal data collected &middot; No tracking cookies used
+      </p>
 
-      <div class="footer__col footer__col--credits">
-        <img class="footer__herde-logo" src="images/herde-logo-impressum.svg" alt="HERDE" height="32">
-        <p>
-          Webdesign &amp; Development HERDE Wien<br>
-          <a href="https://www.herde.wien" target="_blank" rel="noopener noreferrer">www.herde.wien</a> E-Mail: <a href="mailto:tobias@herde.wien">tobias@herde.wien</a><br>
-          <br>
-          <span class="footer__emph">Hosting</span> Vercel Inc. 340 Pine Street, Suite 1500 San Francisco,<br>
-          CA 94104 USA <a href="https://vercel.com" target="_blank" rel="noopener noreferrer">vercel.com</a>
-        </p>
-      </div>
-
-      <div class="footer__col footer__col--rights">
-        <p>
-          <span class="footer__emph">Intellectual Property</span> All content on this website (texts, images, logos) is the exclusive<br>
-          property of Anna Rommel Design and may not be reproduced without prior<br>
-          authorisation. <span class="footer__emph">Privacy</span> This website does not collect any personal data.<br>
-          No tracking cookies are used.
-        </p>
-      </div>
-
-      <div class="footer__bar">
-        <img class="footer__bar-hammer" src="images/hammer-impressum.svg" alt="" width="12" height="16">
-        <p class="footer__bar-note">Legal Notice 2026</p>
+      <div class="footer__bottom">
+        <img class="footer__bottom-icon" src="images/hammer-impressum.svg" alt="" width="20" height="20">
+        <img class="footer__bottom-icon" src="images/ar-symbol-impressum.svg" alt="" width="20" height="20">
+        <img class="footer__bottom-icon" src="images/herde-logo-impressum.svg" alt="HERDE" width="20" height="20">
+        <span>Legal Notice 2026 &middot; All rights reserved</span>
       </div>
     </div>
   </footer>
