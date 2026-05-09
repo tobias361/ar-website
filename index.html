@@ -104,7 +104,7 @@
     .wrap {
       max-width: 1440px;
       margin: 0 auto;
-      padding-inline: clamp(20px, 10vw - 44px, 140px);
+      padding-inline: var(--page-pad);
     }
 
     /* Match hero two-column measure (desktop) */
@@ -114,6 +114,8 @@
       --hero-col-gap: clamp(32px, 5vw, 72px);
       --about-portrait: 106px;
       --about-portrait-gutter: clamp(24px, 3.75vw, 48px);
+      /* Same horizontal inset as .wrap (for full-bleed breakout on mobile) */
+      --page-pad: clamp(20px, 10vw - 44px, 140px);
     }
 
     /* ——— Header ——— */
@@ -179,17 +181,21 @@
       height: auto;
     }
 
-    .header-cluster .header-insta {
-      align-self: center;
-    }
-
     .header-insta {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       padding: 4px;
-      margin-top: 0px;
       transition: opacity 0.2s ease;
+    }
+
+    @media (min-width: 992px) {
+      .header-cluster .header-insta {
+        /* Right edge of icon matches right edge of hero column (same as hero image) */
+        align-self: flex-end;
+        margin-right: 0;
+        padding-top: 30px;
+      }
     }
 
     .header-insta:hover {
@@ -292,10 +298,10 @@
     .hero__mosaic {
       position: absolute;
       left: 0;
-      top: clamp(28px, 4.5vw, 44px);
-      width: clamp(76px, 20.5vw, 133px);
-      height: clamp(230px, 56vw, 402px);
-      transform: rotate(-0.5deg) translateX(-8%);
+      top: -120px;
+      width: 8.08563rem;
+      height: 25.052rem;
+      transform: rotate(-0.466deg);
       pointer-events: none;
       z-index: 0;
     }
@@ -388,15 +394,6 @@
     .btn:hover {
       background: #924a46;
       text-decoration: none;
-    }
-
-    .hero__subtitle {
-      margin: 10px 0 0;
-      font-family: 'Clash Grotesk', system-ui, sans-serif;
-      font-weight: 300;
-      font-size: 14px;
-      line-height: 1.35;
-      color: #3e2723;
     }
 
     .hero__photo {
@@ -492,9 +489,33 @@
       letter-spacing: 0.01em;
     }
 
-    .about__text strong,
+    .about__text.about__handmade-line {
+      font-family: 'Clash Grotesk', system-ui, sans-serif;
+      font-weight: 500;
+    }
+
+    .about__text .about__name {
+      font-family: 'Clash Grotesk', system-ui, sans-serif;
+      font-weight: 400;
+    }
+
+    .about__atelier-link {
+      font-family: 'Clash Grotesk', system-ui, sans-serif;
+      font-weight: 500;
+      color: inherit;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
     .about__text .semibold {
       font-weight: 500;
+    }
+
+    .about__text-flow {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, 3vw, 24px);
+      width: 100%;
     }
 
     .about__avatar {
@@ -562,6 +583,10 @@
     @media (min-width: 768px) {
       .insta-grid {
         grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .hero__overlap-portrait {
+        display: none !important;
       }
     }
 
@@ -640,11 +665,14 @@
     }
 
     @media (max-width: 767px) {
+      /* Coming Soon → headline: keep total vertical gap modest (≤ 16px feel) */
       .site-header {
         display: grid;
         grid-template-columns: 1fr auto;
-        align-items: start;
+        align-items: center;
         gap: 8px;
+        row-gap: 8px;
+        padding-bottom: 8px;
       }
 
       .logo--desktop {
@@ -653,17 +681,19 @@
 
       .logo--mobile {
         display: block;
-        padding-top: 4px;
+        padding-top: 0;
         margin-bottom: 0;
         grid-column: 1;
         grid-row: 1;
         justify-self: start;
+        align-self: center;
       }
 
       .logo--mobile img {
         width: min(264px, 86vw);
         height: auto;
-        margin-inline: auto;
+        margin-inline: 0;
+        display: block;
       }
 
       .header-cluster {
@@ -674,50 +704,137 @@
         grid-column: 2;
         grid-row: 1;
         justify-self: end;
-        align-self: start;
-        margin-top: 2px;
+        align-self: center;
+        margin-top: 0;
+        padding-top: 0;
+        margin-right: 0;
       }
 
       .coming-soon {
         grid-column: 1 / -1;
         grid-row: 2;
         align-self: stretch;
+        align-items: center;
+        text-align: center;
+        margin-top: 24px;
+        margin-bottom: 0;
+        font-size: 22px;
       }
 
       .coming-soon__line {
-        justify-content: flex-end;
+        justify-content: center;
+        font-size: 22px;
       }
 
-      .hero__photo img {
-        max-width: none;
-        width: 100%;
+      .hero {
+        margin-top: 0;
       }
 
-      .hero__mosaic {
-      transform: rotate(-1.6deg) translateX(-10%) translateY(-20px);
+      .hero__inner {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding-top: 8px;
+        gap: clamp(16px, 4vw, 24px);
+      }
+
+      .hero__lead {
+        display: contents;
+      }
+
+      /*
+        Flex order (display:contents on .hero__lead): 1 headline, 2 button,
+        3 hero image, 4 portrait overlap, 5 intro (.lede)
+      */
+      .hero__inner .headline {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        z-index: 2;
+        order: 1;
+        margin: 64px 0 0;
+        padding-left: 48px;
+        font-size: 42px;
       }
 
       .hero__lead .btn {
+        order: 2;
         display: flex;
+        margin-top: 32px;
+        margin-bottom: 55px;
         margin-inline: auto;
       }
 
-      .about__grid {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+      .hero__photo {
+        position: relative;
+        z-index: 1;
+        order: 3;
+        width: 100vw;
+        max-width: none;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        padding: 0;
+        box-sizing: border-box;
       }
 
-      .about__avatar-wrap {
-        order: -1;
-        float: none;
-        align-self: center;
-        margin: 0 0 16px 0;
-      }
-
-      .about__text-flow {
+      .hero__photo img {
         width: 100%;
+        max-width: none;
+        height: auto;
+        min-height: clamp(205px, 52vw, 375px);
+        margin: 0;
+        object-fit: cover;
+        object-position: bottom;
+        display: block;
       }
+
+      .hero .hero__overlap-portrait {
+        order: 4;
+        position: relative;
+        z-index: 3;
+        float: none;
+        margin-top: -65px;
+        margin-left: 40px;
+        margin-right: auto;
+        margin-bottom: 0;
+        width: 90px;
+        height: 90px;
+        align-self: flex-start;
+      }
+
+      .hero .hero__overlap-portrait .about__avatar {
+        width: 90px;
+        height: 90px;
+        margin-inline: 0;
+      }
+
+      .hero__inner .lede {
+        order: 5;
+        max-width: none;
+        margin: 0;
+      }
+
+      .hero__mosaic {
+        width: 5.10381rem;
+        height: 15.81331rem;
+        transform: rotate(-1.583deg);
+        top: -60px;
+      }
+
+      /* About: portrait is shown overlapping hero above; hide duplicate block */
+      .about__avatar-wrap--in-about {
+        display: none !important;
+      }
+
+      .about__grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-items: start;
+        align-items: start;
+        gap: clamp(16px, 3vw, 24px);
+      }
+
     }
 
   </style>
@@ -774,7 +891,6 @@
               Based between Forcalquier and Marseille,<br>her work moves between bespoke furniture and jewellery&nbsp;&mdash;&nbsp;<em>confronting</em> ancient Mediterranean craft with contemporary concepts and matter.            </p>
           </div>
           <a class="btn" href="mailto:studio@annarommel.eu">Contact</a>
-          <p class="hero__subtitle">Every piece is unique and handmade.</p>
         </div>
 
         <div class="hero__photo">
@@ -783,6 +899,16 @@
             <img src="images/ar-hero-mobile.jpg" alt="" width="446" height="375" decoding="async" fetchpriority="high">
           </picture>
         </div>
+
+        <!-- Mobile-only: sits under hero photo, overlaps image bottom (desktop hidden via CSS) -->
+        <figure class="about__avatar-wrap hero__overlap-portrait" aria-hidden="true">
+          <div class="about__avatar">
+            <picture>
+              <source media="(min-width: 992px)" srcset="images/ar-portrait.png">
+              <img src="images/ar-portrait.png" alt="" width="90" height="90" decoding="async">
+            </picture>
+          </div>
+        </figure>
       </div>
     </section>
 
@@ -793,11 +919,17 @@
         <div class="about__grid">
           <div class="about__text-flow">
             <p class="about__text">
-              Trained at the Mosaic School of Spilimbergo, <span class="semibold">Anna Rommel</span> went on to co-restore the ceiling mosaics of Notre Dame de la Garde. She is part of <span class="semibold">Atelier&nbsp;Céladon</span>, an artist collective based in Marseille. Working with private clients, interior designers and galleries seeking exceptional, accessible pieces for considered spaces.
+              Working with private clients, interior designers and galleries seeking exceptional, accessible pieces for considered spaces.
+            </p>
+            <p class="about__text about__handmade-line">
+              Every piece is unique and handmade.
+            </p>
+            <p class="about__text">
+              Trained at the Mosaic School of Spilimbergo, <span class="about__name">Anna Rommel</span> went on to co-restore the ceiling mosaics of Notre Dame de la Garde in Marseille. She is part of <a class="about__atelier-link" href="https://www.atelier-celadon.com" target="_blank" rel="noopener noreferrer">Atelier&nbsp;Céladon</a>, an artist collective based in Marseille.
             </p>
           </div>
 
-          <figure class="about__avatar-wrap">
+          <figure class="about__avatar-wrap about__avatar-wrap--in-about">
             <div class="about__avatar">
               <picture>
                 <source media="(min-width: 992px)" srcset="images/ar-portrait.png">
