@@ -274,11 +274,13 @@
       .coming-soon__icon--bird {
         width: 48px;
         height: auto;
+        margin-top: -4px;
       }
 
       .coming-soon__icon--sun {
         width: 44px;
         height: auto;
+        margin-top: -4px;
       }
     }
 
@@ -435,74 +437,54 @@
       margin: 0 0 clamp(20px, 3vw, 32px);
     }
 
-    .about .section-title {
+    .about .section-title.about__heading {
       margin-bottom: clamp(14px, 2.25vw, 24px);
     }
 
-    /* Positioning context for portrait (desktop): matches hero slice */
     .about__body {
       position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, 3vw, 24px);
     }
 
     .about__avatar-wrap {
       margin: 0;
-      justify-self: end;
-    }
-
-    .about__grid {
-      display: grid;
-      gap: clamp(28px, 6vw, 52px);
-      align-items: start;
     }
 
     @media (min-width: 992px) {
       .about__body {
         min-height: 0;
       }
-
-      /* Two columns: flowing text + portrait */
-      .about__grid {
-        grid-template-columns: minmax(0, calc(var(--hero-copy-max) - 40px)) minmax(0, var(--about-portrait));
-        justify-content: start;
-        gap: var(--hero-col-gap);
-        align-items: start;
-      }
-
-      .about__avatar-wrap {
-        width: var(--about-portrait);
-      }
-
-      .about__avatar-wrap .about__avatar {
-        width: var(--about-portrait);
-        height: var(--about-portrait);
-      }
-
-      .about__avatar {
-        margin-inline: 0;
-      }
     }
 
     .about__text {
       margin: 0;
+      font-family: 'Clash Grotesk', sans-serif;
+      font-weight: 400;
       font-size: 18px;
       line-height: 21px;
       letter-spacing: 0.01em;
+      color: #3e2723;
     }
 
-    .about__text.about__handmade-line {
-      font-family: 'Clash Grotesk', system-ui, sans-serif;
+    .about__text.about__handmade-line,
+    .about__prose .about__handmade-line {
+      font-family: 'Clash Grotesk', sans-serif;
       font-weight: 500;
+      color: #3e2723;
     }
 
     .about__text .about__name {
-      font-family: 'Clash Grotesk', system-ui, sans-serif;
+      font-family: 'Clash Grotesk', sans-serif;
       font-weight: 400;
+      color: #3e2723;
     }
 
     .about__atelier-link {
-      font-family: 'Clash Grotesk', system-ui, sans-serif;
+      font-family: 'Clash Grotesk', sans-serif;
       font-weight: 500;
-      color: inherit;
+      color: #3e2723;
       text-decoration-thickness: 1px;
       text-underline-offset: 3px;
     }
@@ -511,11 +493,12 @@
       font-weight: 500;
     }
 
-    .about__text-flow {
-      display: flex;
-      flex-direction: column;
-      gap: clamp(16px, 3vw, 24px);
-      width: 100%;
+    .about__prose {
+      margin: 0;
+    }
+
+    .about__slot {
+      display: inline;
     }
 
     .about__avatar {
@@ -535,18 +518,79 @@
       object-position: 50% 20%;
     }
 
-    @media (max-width: 991px) {
-      .about__grid {
-        grid-template-columns: 1fr;
+    /* Desktop: page grid — 10 columns × 30px gap inside .wrap (140px gutters via padding) */
+    @media (min-width: 992px) {
+      .about__body {
+        display: grid;
+        grid-template-columns: repeat(10, minmax(0, 1fr));
+        column-gap: 30px;
+        row-gap: 0;
+        align-items: start;
       }
 
-      .about__avatar-wrap {
-        float: right;
-        margin: 0 0 12px 12px;
+      .about .about__heading {
+        grid-column: 1 / -1;
+        grid-row: 1;
+      }
+
+      .about__avatar-wrap.about__avatar-wrap--in-about {
+        grid-column: 1 / 2;
+        grid-row: 2;
+        justify-self: start;
+        align-self: start;
+        margin: 0;
+        float: none;
+        width: auto;
+      }
+
+      .about__avatar-wrap.about__avatar-wrap--in-about .about__avatar {
+        width: 100px;
+        height: 100px;
+        max-width: 100px;
+        max-height: 100px;
+        margin-inline: 0;
+        border-radius: 50%;
+      }
+
+      .about__text-wrap {
+        grid-column: 2 / -1;
+        grid-row: 2;
+        min-width: 0;
+      }
+
+      .about__prose {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 30px;
+        row-gap: 0;
+      }
+
+      .about__slot--lead {
+        grid-column: 1;
+        grid-row: 1;
+        display: block;
+      }
+
+      .about__slot--ceiling {
+        grid-column: 2;
+        grid-row: 1;
+        display: block;
+      }
+
+      .about__slot--train {
+        grid-column: 1;
+        grid-row: 2;
+        display: block;
+      }
+
+      .about__slot--handmade {
+        grid-column: 2;
+        grid-row: 2;
+        display: block;
       }
     }
 
-    /* ——— New Products placeholder ——— */
+    /* ——— New Products (Behold Instagram feed) ——— */
     .behold {
       margin-top: 0;
       padding-top: 0;
@@ -574,42 +618,30 @@
       text-decoration: underline;
     }
 
-    .insta-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: clamp(14px, 2.4vw, 30px);
-    }
-
-    @media (min-width: 768px) {
-      .insta-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
-
+    @media (min-width: 992px) {
       .hero__overlap-portrait {
         display: none !important;
       }
     }
 
-    .insta-grid__cell {
-      aspect-ratio: 1;
-      background: #ffffff;
-      border: 1px solid rgba(62, 39, 35, 0.06);
-    }
-
     /* ——— Footer ——— */
     .footer {
       background: #ece7e2;
-      padding: 32px 140px;
+      padding: 32px 0;
       box-sizing: border-box;
       font-family: 'Clash Grotesk', sans-serif;
       font-weight: 300;
-      font-size: 9px;
+      font-size: 12px;
       line-height: 1.6;
       color: #898987;
     }
 
     .footer__flow {
       display: block;
+      max-width: 1440px;
+      margin-inline: auto;
+      padding-inline: var(--page-pad);
+      box-sizing: border-box;
     }
 
     .footer a {
@@ -646,12 +678,6 @@
       object-fit: contain;
     }
 
-    @media (max-width: 991px) {
-      .footer {
-        padding: 32px clamp(16px, 5vw, 140px);
-      }
-    }
-
     .visually-hidden {
       position: absolute;
       width: 1px;
@@ -664,68 +690,8 @@
       border: 0;
     }
 
-    @media (max-width: 767px) {
-      /* Coming Soon → headline: keep total vertical gap modest (≤ 16px feel) */
-      .site-header {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        align-items: center;
-        gap: 8px;
-        row-gap: 8px;
-        padding-bottom: 8px;
-      }
-
-      .logo--desktop {
-        display: none;
-      }
-
-      .logo--mobile {
-        display: block;
-        padding-top: 0;
-        margin-bottom: 0;
-        grid-column: 1;
-        grid-row: 1;
-        justify-self: start;
-        align-self: center;
-      }
-
-      .logo--mobile img {
-        width: min(264px, 86vw);
-        height: auto;
-        margin-inline: 0;
-        display: block;
-      }
-
-      .header-cluster {
-        display: contents;
-      }
-
-      .header-insta {
-        grid-column: 2;
-        grid-row: 1;
-        justify-self: end;
-        align-self: center;
-        margin-top: 0;
-        padding-top: 0;
-        margin-right: 0;
-      }
-
-      .coming-soon {
-        grid-column: 1 / -1;
-        grid-row: 2;
-        align-self: stretch;
-        align-items: center;
-        text-align: center;
-        margin-top: 24px;
-        margin-bottom: 0;
-        font-size: 22px;
-      }
-
-      .coming-soon__line {
-        justify-content: center;
-        font-size: 22px;
-      }
-
+    /* Tablet + mobile: hero stack like phone; portrait overlaps hero image bottom */
+    @media (max-width: 991px) {
       .hero {
         margin-top: 0;
       }
@@ -794,7 +760,7 @@
         position: relative;
         z-index: 3;
         float: none;
-        margin-top: -65px;
+        margin-top: -45px;
         margin-left: 40px;
         margin-right: auto;
         margin-bottom: 0;
@@ -822,17 +788,89 @@
         top: -60px;
       }
 
-      /* About: portrait is shown overlapping hero above; hide duplicate block */
       .about__avatar-wrap--in-about {
         display: none !important;
       }
 
-      .about__grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        justify-items: start;
-        align-items: start;
+      .about .about__body {
         gap: clamp(16px, 3vw, 24px);
+      }
+    }
+
+    @media (max-width: 767px) {
+      /* Coming Soon → headline: keep total vertical gap modest (≤ 16px feel) */
+      .site-header {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 8px;
+        row-gap: 8px;
+        padding-bottom: 8px;
+      }
+
+      .logo--desktop {
+        display: none;
+      }
+
+      .logo--mobile {
+        display: block;
+        padding-top: 0;
+        margin-bottom: 0;
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: start;
+        align-self: center;
+      }
+
+      .logo--mobile img {
+        width: min(264px, 86vw);
+        height: auto;
+        margin-inline: 0;
+        display: block;
+      }
+
+      .header-cluster {
+        display: contents;
+      }
+
+      .header-insta {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: end;
+        align-self: center;
+        margin-top: 0;
+        padding-top: 0;
+        margin-right: 0;
+      }
+
+      .coming-soon {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        align-self: stretch;
+        align-items: center;
+        text-align: center;
+        margin-top: 24px;
+        margin-bottom: 0;
+        font-size: 22px;
+      }
+
+      .coming-soon__line {
+        justify-content: center;
+        font-size: 22px;
+      }
+
+      .coming-soon__icon--bird {
+        width: clamp(calc(26px * 1.18), calc((0.6em + 2.35vw) * 1.18), calc(58px * 1.18));
+        transform: translateY(-3px);
+      }
+
+      .coming-soon__icon--sun {
+        width: clamp(calc(22px * 1.18), calc((0.5em + 2.1vw) * 1.18), calc(52px * 1.18));
+        transform: translateY(-3px);
+      }
+
+      .behold {
+        margin-top: 80px;
       }
 
     }
@@ -900,7 +938,7 @@
           </picture>
         </div>
 
-        <!-- Mobile-only: sits under hero photo, overlaps image bottom (desktop hidden via CSS) -->
+        <!-- Tablet & mobile: under hero photo, overlaps image bottom (hidden ≥992px) -->
         <figure class="about__avatar-wrap hero__overlap-portrait" aria-hidden="true">
           <div class="about__avatar">
             <picture>
@@ -913,30 +951,20 @@
     </section>
 
     <section class="about wrap" id="about">
-      <h2 class="section-title">About</h2>
-
       <div class="about__body">
-        <div class="about__grid">
-          <div class="about__text-flow">
-            <p class="about__text">
-              Working with private clients, interior designers and galleries seeking exceptional, accessible pieces for considered spaces.
-            </p>
-            <p class="about__text about__handmade-line">
-              Every piece is unique and handmade.
-            </p>
-            <p class="about__text">
-              Trained at the Mosaic School of Spilimbergo, <span class="about__name">Anna Rommel</span> went on to co-restore the ceiling mosaics of Notre Dame de la Garde in Marseille. She is part of <a class="about__atelier-link" href="https://www.atelier-celadon.com" target="_blank" rel="noopener noreferrer">Atelier&nbsp;Céladon</a>, an artist collective based in Marseille.
-            </p>
-          </div>
+        <h2 class="section-title about__heading">About</h2>
 
-          <figure class="about__avatar-wrap about__avatar-wrap--in-about">
-            <div class="about__avatar">
-              <picture>
-                <source media="(min-width: 992px)" srcset="images/ar-portrait.png">
-                <img src="images/ar-portrait.png" alt="Anna Rommel" width="336" height="336" decoding="async">
-              </picture>
-            </div>
-          </figure>
+        <figure class="about__avatar-wrap about__avatar-wrap--in-about">
+          <div class="about__avatar">
+            <picture>
+              <source media="(min-width: 992px)" srcset="images/ar-portrait.png">
+              <img src="images/ar-portrait.png" alt="Anna Rommel" width="336" height="336" decoding="async">
+            </picture>
+          </div>
+        </figure>
+
+        <div class="about__text-wrap">
+          <p class="about__text about__prose"><span class="about__slot about__slot--lead">Working with private clients, interior designers and galleries seeking exceptional, accessible pieces for considered spaces. Trained at the Mosaic School of Spilimbergo, Anna Rommel went on to co-restore</span><span class="about__slot about__slot--ceiling"> the ceiling mosaics of Notre Dame de la Garde in Marseille. She is part of <a class="about__atelier-link" href="https://www.atelier-celadon.com" target="_blank" rel="noopener noreferrer">Atelier&nbsp;Céladon</a>, an artist collective based in Marseille.</span><span class="about__handmade-line about__slot about__slot--handmade"> <br> Every piece is unique and handmade.</span></p>
         </div>
       </div>
     </section>
@@ -946,12 +974,7 @@
         <h2 id="products-heading" class="section-title" style="margin:0;">New Products</h2>
         <a class="behold__follow" href="https://www.instagram.com/annarommel.design" target="_blank" rel="noopener noreferrer">&gt; follow</a>
       </div>
-      <div class="insta-grid" aria-hidden="true">
-        <div class="insta-grid__cell"></div>
-        <div class="insta-grid__cell"></div>
-        <div class="insta-grid__cell"></div>
-        <div class="insta-grid__cell"></div>
-      </div>
+      <behold-widget feed-id="Yiehz"></behold-widget>
     </section>
   </main>
 
@@ -959,7 +982,8 @@
     <span id="footer-label" class="visually-hidden">Legal notice</span>
     <div class="footer__flow">
       <p class="footer__text">
-        <span class="footer__emph">Publisher</span> &middot; Anna Rommel &middot; Atelier C&eacute;ladon, Le Panier, Marseille &middot; <a href="mailto:studio@annarommel.eu">studio@annarommel.eu</a> &middot; <a href="tel:+33637464709">+33 6 37 46 47 09</a> &middot; SIRET: 838 171 353 000 17 &middot; Webdesign &amp; Development HERDE Wien &middot; <a href="https://www.herde.wien" target="_blank" rel="noopener noreferrer">www.herde.wien</a> &middot; <a href="mailto:tobias@herde.wien">tobias@herde.wien</a> &middot; <span class="footer__emph">Hosting</span> Vercel Inc., San Francisco &middot; <a href="https://vercel.com" target="_blank" rel="noopener noreferrer">vercel.com</a> &middot; <span class="footer__emph">Intellectual Property</span> &middot; All content on this website is the exclusive property of Anna Rommel Design and may not be reproduced without prior authorisation &middot; <span class="footer__emph">Privacy</span> &middot; No personal data collected &middot; No tracking cookies used
+        <span class="footer__emph">Publisher</span> &middot; Anna Rommel &middot; Atelier C&eacute;ladon, Le Panier, Marseille &middot; <a href="mailto:studio@annarommel.eu">studio@annarommel.eu</a> &middot; <a href="tel:+33637464709">+33 6 37 46 47 09</a> &middot; SIRET: 838 171 353 000 17 &middot; Webdesign &amp; Development HERDE Wien &middot; <a href="https://www.herde.wien" target="_blank" rel="noopener noreferrer">www.herde.wien</a> &middot; <a href="mailto:tobias@herde.wien">tobias@herde.wien</a> &middot;<br>
+        <span class="footer__emph">Hosting</span> Vercel Inc., San Francisco &middot; <a href="https://vercel.com" target="_blank" rel="noopener noreferrer">vercel.com</a> &middot; <span class="footer__emph">Intellectual Property</span> &middot; All content on this website is the exclusive property of Anna Rommel Design and may not be reproduced without prior authorisation &middot; <span class="footer__emph">Privacy</span> &middot; No personal data collected &middot; No tracking cookies used
       </p>
 
       <div class="footer__bottom">
@@ -971,5 +995,6 @@
     </div>
   </footer>
 
+  <script src="https://w.behold.so/widget.js" type="module"></script>
 </body>
 </html>
